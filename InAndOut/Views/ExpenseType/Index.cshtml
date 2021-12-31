@@ -18,9 +18,6 @@
             <thead>
                 <tr>
                     <th class="text-center">
-                        Id
-                    </th>
-                    <th class="text-center">
                         Expense type
                     </th>
                     <th class="text-center">
@@ -32,8 +29,7 @@
                 @foreach (var expenseType in Model)
                 {
                     <tr>
-                        <td width="10%" class="text-center">@expenseType.Id</td>
-                        <td width="60%" class="text-center">@expenseType.Name</td>
+                        <td width="70%" class="text-center">@expenseType.Name</td>
                         <td width="30%">
                             <div class="w-100 btn-group" role="group">
                                 <a asp-controller="ExpenseType" asp-action="Update" asp-route-Id="@expenseType.Id" class="btn btn-primary mx-1">Update</a>
