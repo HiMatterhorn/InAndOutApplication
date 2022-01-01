@@ -1,5 +1,6 @@
 ﻿using InAndOut.Data;
 using InAndOut.Models;
+using InAndOut.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -25,25 +26,38 @@ namespace InAndOut.Controllers
         //GET - Create
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+
+            //Moved to ViewModel
+            /*            IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                        {
+                            Text = i.Name,
+                            Value = i.Id.ToString()
+                        }) ;
+
+                         ViewBag.TypeDropDown = TypeDropDown;
+            */
+
+            ExpenseVM expenseVM = new ExpenseVM()
             {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            }) ;
-
-            ViewBag.TypeDropDown = TypeDropDown;
-
-            return View();
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+            return View(expenseVM);
         }
-
+  
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         //POST - Create
-        public IActionResult Create(Expense obj)
+        public IActionResult Create(ExpenseVM obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Expenses.Add(obj);
+                _db.Expenses.Add(obj.Expense);
                 _db.SaveChanges();
 
                 return (RedirectToAction("Index"));
