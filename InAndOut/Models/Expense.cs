@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InAndOut.Models
 {
+    [Index(nameof(ExpenseTypeId), IsUnique = false)]
     public class Expense
     {
         [Key]

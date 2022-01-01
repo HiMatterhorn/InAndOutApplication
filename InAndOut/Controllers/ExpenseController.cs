@@ -32,16 +32,6 @@ namespace InAndOut.Controllers
         public IActionResult Create()
         {
 
-            //Moved to ViewModel
-            /*            IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
-                        {
-                            Text = i.Name,
-                            Value = i.Id.ToString()
-                        }) ;
-
-                         ViewBag.TypeDropDown = TypeDropDown;
-            */
-
             ExpenseVM expenseVM = new ExpenseVM()
             {
                 Expense = new Expense(),
@@ -117,31 +107,40 @@ namespace InAndOut.Controllers
         public IActionResult Update(int? id)
         {
 
+            ExpenseVM expenseVM = new ExpenseVM()
+            {
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var obj = _db.Expenses.Find(id);
+            expenseVM.Expense = _db.Expenses.Find(id);
 
-            if (obj == null)
+            if (expenseVM.Expense == null)
             {
                 return NotFound();
             }
 
-
-            return View(obj);
+            return View(expenseVM);
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         //POST - Update
-        public IActionResult Update(Expense obj)
+        public IActionResult Update(ExpenseVM obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Expenses.Update(obj);
+                _db.Expenses.Update(obj.Expense);
                 _db.SaveChanges();
 
                 return (RedirectToAction("Index"));
