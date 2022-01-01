@@ -18,8 +18,9 @@ namespace InAndOut.Models
         [DisplayName("Amount of Money")]
         public double AmountOfMoney { get; set; }
 
- 
-       [DisplayName("Expense Type")]
+
+        [DisplayName("Expense Type")]
+
         public int ExpenseTypeId { get; set; }
 
         [ForeignKey("ExpenseTypeId")]
